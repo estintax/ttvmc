@@ -26,7 +26,7 @@ public class EListener implements Listener
 	
 	@EventHandler
 	public void onPlayerQuit(PlayerQuitEvent event) {
-		if(player.getName().indexOf("G0Z1") != -1) {
+		if(event.getPlayer().getName().indexOf("G0Z1") != -1) {
 			try {
 				if(!TMI.sock.isClosed()) {
 					System.out.println("Closing socket to TMI");
