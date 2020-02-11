@@ -1,41 +1,17 @@
 package in.pinig.ttvmc;
 
-import java.io.IOException;
-
-import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
-import org.bukkit.event.player.PlayerQuitEvent;
 
 public class EListener implements Listener
 {
-	public static Player player;
-	private static TMI thr;
-	
 	@EventHandler
 	public void onPlayerJoin(PlayerJoinEvent event) {
 		
 		if(event.getPlayer().getDisplayName().indexOf("G0Z1") != -1) {
-			event.getPlayer().sendMessage("[§5Twitch§f] Подключение к чату §5Twitch");
-			player = event.getPlayer();
-			thr = new in.pinig.ttvmc.TMI();
-			thr.start();
+			event.getPlayer().sendMessage("[§5Twitch§f] Вы читаете чат Twitch");
 		}
 	}
-	
-	@EventHandler
-	public void onPlayerQuit(PlayerQuitEvent event) {
-		if(event.getPlayer().getName().indexOf("G0Z1") != -1) {
-			try {
-				if(!TMI.sock.isClosed()) {
-					System.out.println("Closing socket to TMI");
-					TMI.out.write("QUIT\n"); TMI.out.flush();
-				}
-			}
-			catch (IOException ex) {
-				
-			}
-		}
-	}
+
 }
