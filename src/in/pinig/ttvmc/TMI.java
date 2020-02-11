@@ -34,7 +34,7 @@ public class TMI extends Thread {
 					}
 					if(params[1].equals("PRIVMSG")) {
 						if(!Main.enabled) continue;
-						String[] args = str.split(":");
+						String[] args = str.split(":", 3);
 						String username = args[1].split("!")[0];
 						String message = args[2];
 						Player player = Bukkit.getPlayer("G0Z1");
