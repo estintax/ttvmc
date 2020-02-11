@@ -17,7 +17,7 @@ public class EListener implements Listener
 	public void onPlayerJoin(PlayerJoinEvent event) {
 		
 		if(event.getPlayer().getDisplayName().indexOf("G0Z1") != -1) {
-			event.getPlayer().sendMessage("Вы уполномочены читать чат канала #spider_kubla, подключаемся.");
+			event.getPlayer().sendMessage("[§5Twitch§f] Подключение к чату §5Twitch");
 			player = event.getPlayer();
 			thr = new in.pinig.ttvmc.TMI();
 			thr.start();

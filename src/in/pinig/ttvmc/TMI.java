@@ -38,7 +38,7 @@ public class TMI extends Thread {
 				}
 			}
 			catch(IOException e) {
-				EListener.player.sendMessage("Исключение ввода/вывода: " + e.getMessage());
+				EListener.player.sendMessage("[§5Twitch§f] Ошибка I/O: " + e.getMessage());
 			}
 			finally {
 				sock.close();
@@ -47,7 +47,7 @@ public class TMI extends Thread {
 			}
 		}
 		catch (IOException e) {
-			EListener.player.sendMessage("Ошибка при подключении к чату TMI.");
+			EListener.player.sendMessage("[§5Twitch§f] Вы отключены от TMI. Причина:");
 			EListener.player.sendMessage(e.getMessage());
 		}
 	}
