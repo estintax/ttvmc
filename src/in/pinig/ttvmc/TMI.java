@@ -33,6 +33,7 @@ public class TMI extends Thread {
 						out.println("PONG " + params[1]);
 					}
 					if(params[1].equals("PRIVMSG")) {
+						if(!Main.enabled) continue;
 						String[] args = str.split(":");
 						String username = args[1].split("!")[0];
 						String message = args[2];
