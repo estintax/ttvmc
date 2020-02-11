@@ -2,6 +2,7 @@ package in.pinig.ttvmc;
 
 import java.io.*;
 import java.net.Socket;
+import java.util.Map;
 
 public class TMI extends Thread {
 	public static Socket sock;
@@ -17,7 +18,11 @@ public class TMI extends Thread {
 				out = new PrintWriter(sock.getOutputStream(), true);
 				
 				out.println("NICK justinfan35815\n");
-				out.println("JOIN #" + Main.config.getString("channel") + "\n");
+				for(Map.Entry<String, String> e: Main.channels.entrySet()) {
+					String channel = e.getValue();
+					System.out.println("Joining to #" + channel + " just for " + e.getKey());
+					out.println("JOIN #" + channel + "\n");
+				}
 				
 				for (;;) {
 					if(sock.isClosed()) break;
@@ -29,11 +34,11 @@ public class TMI extends Thread {
 						out.println("PONG " + params[1]);
 					}
 					if(params[1].equals("PRIVMSG")) {
-						if(!Main.enabled) continue;
+						String channel = params[2].replace("#", "");
 						String[] args = str.split(":", 3);
 						String username = args[1].split("!")[0];
 						String message = args[2];
-						Utils.broadcastMessageToAllPlayerWhoCanReadThis("[§5Twitch§f] <" + username + ">: " + message);
+						Utils.broadcastMessageToAllPlayerWhoCanReadThis(channel, "[§5Twitch§f] <" + username + ">: " + message);
 					}
 					if(params[0].equals("QUIT")) {
 						break;
@@ -44,8 +49,8 @@ public class TMI extends Thread {
 				e.printStackTrace();
 			}
 			catch(IOException e) {
-				Utils.broadcastMessageToAllPlayerWhoCanReadThis("[§5Twitch§f] Ошибка I/O: " + e.getMessage());
-				Utils.broadcastMessageToAllPlayerWhoCanReadThis("Stack Trace смотрите в журналах сервера");
+				Utils.broadcastMessageToAllPlayerWhoCanReadThis("none", "[§5Twitch§f] Ошибка I/O: " + e.getMessage());
+				Utils.broadcastMessageToAllPlayerWhoCanReadThis("none", "Stack Trace смотрите в журналах сервера");
 				e.printStackTrace();
 			}
 			finally {
@@ -58,8 +63,8 @@ public class TMI extends Thread {
 			e.printStackTrace();
 		}
 		catch (IOException e) {
-			Utils.broadcastMessageToAllPlayerWhoCanReadThis("[§5Twitch§f] Вы отключены от TMI. Причина:");
-			Utils.broadcastMessageToAllPlayerWhoCanReadThis(e.getMessage());
+			Utils.broadcastMessageToAllPlayerWhoCanReadThis("none", "[§5Twitch§f] Вы отключены от TMI. Причина:");
+			Utils.broadcastMessageToAllPlayerWhoCanReadThis("none", e.getMessage());
 		}
 	}
 }

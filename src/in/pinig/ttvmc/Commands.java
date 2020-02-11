@@ -9,17 +9,17 @@ public class Commands implements CommandExecutor {
 	public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
 		if(sender instanceof Player) {
 			Player player = (Player) sender;
-			if(Main.config.getStringList("players").indexOf(player.getName()) != -1) {
+			if(Main.channels.get(player.getName()) != null) {
 			
-				if(Main.enabled) {
-					Main.enabled = false;
+				if(Main.state.get(player.getName())) {
+					Main.state.put(player.getName(), false);
 					player.sendMessage("[§5Twitch§f] Отображение сообщений §cвыключено");
 				} else {
-					Main.enabled = true;
+					Main.state.put(player.getName(), true);
 					player.sendMessage("[§5Twitch§f] Отображение сообщений §aвключено");
 				}
 			} else {
-				player.sendMessage("§cЭту команду может использовать только медиа-личность");
+				player.sendMessage("§cВы не уполномочены использовать эту команду");
 			}
 		}
 		

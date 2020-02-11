@@ -1,4 +1,4 @@
-channel: estintax
-players:
-   - Estintax
-   - G0Z1
+default: true
+channels:
+   - Estintax:estintax
+   - G0Z1:spider_kubla
