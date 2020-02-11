@@ -9,7 +9,7 @@ public class Commands implements CommandExecutor {
 	public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
 		if(sender instanceof Player) {
 			Player player = (Player) sender;
-			if(player.getName().indexOf("G0Z1") != -1) {
+			if(Main.config.getStringList("players").indexOf(player.getName()) != -1) {
 			
 				if(Main.enabled) {
 					Main.enabled = false;

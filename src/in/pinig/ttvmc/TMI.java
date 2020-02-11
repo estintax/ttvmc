@@ -3,9 +3,6 @@ package in.pinig.ttvmc;
 import java.io.*;
 import java.net.Socket;
 
-import org.bukkit.Bukkit;
-import org.bukkit.entity.Player;
-
 public class TMI extends Thread {
 	public static Socket sock;
 	private static BufferedReader in;
@@ -19,9 +16,8 @@ public class TMI extends Thread {
 				in = new BufferedReader(new InputStreamReader(sock.getInputStream()));
 				out = new PrintWriter(sock.getOutputStream(), true);
 				
-				out.println("PASS oauth:frpcq53xy2qqoara15edjuvln0126j\n");
-				out.println("NICK piniginbot\n");
-				out.println("JOIN #spider_kubla\n");
+				out.println("NICK justinfan35815\n");
+				out.println("JOIN #" + Main.config.getString("channel") + "\n");
 				
 				for (;;) {
 					if(sock.isClosed()) break;
@@ -37,9 +33,7 @@ public class TMI extends Thread {
 						String[] args = str.split(":", 3);
 						String username = args[1].split("!")[0];
 						String message = args[2];
-						Player player = Bukkit.getPlayer("G0Z1");
-						if(player != null)
-							player.sendMessage("[§5Twitch§f] <" + username + ">: " + message);
+						Utils.broadcastMessageToAllPlayerWhoCanReadThis("[§5Twitch§f] <" + username + ">: " + message);
 					}
 					if(params[0].equals("QUIT")) {
 						break;
@@ -50,11 +44,8 @@ public class TMI extends Thread {
 				e.printStackTrace();
 			}
 			catch(IOException e) {
-				Player player = Bukkit.getPlayer("G0Z1");
-				if(player != null) {
-					player.sendMessage("[§5Twitch§f] Ошибка I/O: " + e.getMessage());
-					player.sendMessage("Stack Trace смотрите в журналах сервера");
-				}
+				Utils.broadcastMessageToAllPlayerWhoCanReadThis("[§5Twitch§f] Ошибка I/O: " + e.getMessage());
+				Utils.broadcastMessageToAllPlayerWhoCanReadThis("Stack Trace смотрите в журналах сервера");
 				e.printStackTrace();
 			}
 			finally {
@@ -67,11 +58,8 @@ public class TMI extends Thread {
 			e.printStackTrace();
 		}
 		catch (IOException e) {
-			Player player = Bukkit.getPlayer("G0Z1");
-			if(player != null) {
-				player.sendMessage("[§5Twitch§f] Вы отключены от TMI. Причина:");
-				player.sendMessage(e.getMessage());
-			}
+			Utils.broadcastMessageToAllPlayerWhoCanReadThis("[§5Twitch§f] Вы отключены от TMI. Причина:");
+			Utils.broadcastMessageToAllPlayerWhoCanReadThis(e.getMessage());
 		}
 	}
 }

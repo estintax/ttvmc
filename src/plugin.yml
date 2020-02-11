@@ -1,6 +1,6 @@
-name: TwitchChat
+name: ttvmc
 main: in.pinig.ttvmc.Main
-version: 1.1
+version: 1.2
 commands:
    tmioff:
       description: Enable or disable Twitch Chat
