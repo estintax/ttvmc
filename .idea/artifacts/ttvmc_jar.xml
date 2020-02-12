@@ -3,7 +3,6 @@
     <output-path>$PROJECT_DIR$/classes/artifacts/ttvmc_jar</output-path>
     <root id="archive" name="ttvmc.jar">
       <element id="module-output" name="ttvmc" />
-      <element id="extracted-dir" path="$PROJECT_DIR$/spigot-api-1.15.2-R0.1-SNAPSHOT-shaded.jar" path-in-jar="/" />
     </root>
   </artifact>
 </component>
