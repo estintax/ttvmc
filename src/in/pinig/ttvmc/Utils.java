@@ -22,7 +22,7 @@ public class Utils {
 	public static void loadChannelsFromConfig() {
 		List<String> playerToChannel = Main.config.getStringList("channels");
 		for(String x: playerToChannel) {
-			if(x.indexOf(":") == -1) {
+			if(!x.contains(":")) {
 				System.err.println("ttvmc config: line \"" + x + "\" is incorrect");
 				continue;
 			}
