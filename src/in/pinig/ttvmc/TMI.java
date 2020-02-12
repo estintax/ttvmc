@@ -20,8 +20,10 @@ public class TMI extends Thread {
 				out.println("NICK justinfan35815\n");
 				for(Map.Entry<String, String> e: Main.channels.entrySet()) {
 					String channel = e.getValue();
+					if(Main.joinedChannels.contains(channel)) continue;
 					System.out.println("Joining to #" + channel + " just for " + e.getKey());
 					out.println("JOIN #" + channel + "\n");
+					Main.joinedChannels.add(channel);
 				}
 				
 				for (;;) {
