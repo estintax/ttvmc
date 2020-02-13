@@ -2,7 +2,9 @@ package in.pinig.ttvmc;
 
 import java.util.Collection;
 import java.util.List;
+import java.util.HashMap;
 
+import com.sun.istack.internal.NotNull;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
@@ -30,5 +32,17 @@ public class Utils {
 			Main.channels.put(splitted[0], splitted[1]);
 			Main.state.put(splitted[0], Main.config.getBoolean("default"));
 		}
+	}
+
+	public static HashMap<String, String> parseTags(@NotNull String raw) {
+		HashMap<String, String> result = new HashMap<>();
+
+		String[] splitted = raw.split(";");
+		for (String x: splitted) {
+			String[] keyAndValue = x.split("=", 2);
+			result.put(keyAndValue[0], keyAndValue.length == 2?keyAndValue[1]:null);
+		}
+
+		return result;
 	}
 }

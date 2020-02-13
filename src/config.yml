@@ -1,4 +1,7 @@
 default: true
+options:
+   typesColor: false
+   useDisplayName: true
 channels:
    - Estintax:estintax
    - G0Z1:spider_kubla
