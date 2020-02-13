@@ -31,15 +31,17 @@ public class TMI extends Thread {
 				for (;;) {
 					if(sock.isClosed()) break;
 					String str = in.readLine();
+					String[] preParseParams = str.split(" ");
+					if(preParseParams[0].equals("PING")) {
+						out.println("PONG " + preParseParams[1]);
+						continue;
+					}
+
 					if(str == null) continue;
 					String[] args = str.split(":", 3);
 					args[0] = args[0].replaceAll(" ", "");
 					str = String.join(":", args);
 					String[] params = str.split(" ");
-					if(params[0].equals("PING")) {
-						System.out.println("Sending PONG to TMI.");
-						out.println("PONG " + params[1]);
-					}
 					if(params[1].equals("PRIVMSG")) {
 						String channel = params[2].replace("#", "");
 						String username = args[1].split("!")[0];
