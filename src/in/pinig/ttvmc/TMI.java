@@ -2,6 +2,7 @@ package in.pinig.ttvmc;
 
 import java.io.*;
 import java.net.Socket;
+import java.util.HashMap;
 import java.util.Map;
 
 public class TMI extends Thread {
@@ -17,12 +18,13 @@ public class TMI extends Thread {
 				in = new BufferedReader(new InputStreamReader(sock.getInputStream()));
 				out = new PrintWriter(sock.getOutputStream(), true);
 				
-				out.println("NICK justinfan35815\n");
+				out.println("NICK justinfan35815");
+				out.println("CAP REQ :twitch.tv/tags");
 				for(Map.Entry<String, String> e: Main.channels.entrySet()) {
 					String channel = e.getValue();
 					if(Main.joinedChannels.contains(channel)) continue;
 					System.out.println("Joining to #" + channel + " just for " + e.getKey());
-					out.println("JOIN #" + channel + "\n");
+					out.println("JOIN #" + channel);
 					Main.joinedChannels.add(channel);
 				}
 				
@@ -30,6 +32,9 @@ public class TMI extends Thread {
 					if(sock.isClosed()) break;
 					String str = in.readLine();
 					if(str == null) continue;
+					String[] args = str.split(":", 3);
+					args[0] = args[0].replaceAll(" ", "");
+					str = String.join(":", args);
 					String[] params = str.split(" ");
 					if(params[0].equals("PING")) {
 						System.out.println("Sending PONG to TMI.");
@@ -37,17 +42,22 @@ public class TMI extends Thread {
 					}
 					if(params[1].equals("PRIVMSG")) {
 						String channel = params[2].replace("#", "");
-						String[] args = str.split(":", 3);
 						String username = args[1].split("!")[0];
 						String message = args[2];
+
+						HashMap<String, String> tags = Utils.parseTags(params[0].replace("@", ""));
+						String displayName = Main.config.getBoolean("options.useDisplayName")?tags.get("display-name"):username;
 						if(message.contains("\u0001")) {
 							message = message.replaceAll("\u0001", "");
 							String[] subParams = message.split(" ", 2);
 							if(subParams[0].equals("ACTION")) {
-								Utils.broadcastMessageToAllPlayerWhoCanReadThis(channel, "[§5Twitch§f] §o* " + username + " " + subParams[1]);
+								Utils.broadcastMessageToAllPlayerWhoCanReadThis(channel, "[§5Twitch§f] §o* " + displayName + " " + subParams[1]);
 							}
 						} else {
-							Utils.broadcastMessageToAllPlayerWhoCanReadThis(channel, "[§5Twitch§f] <" + username + ">: " + message);
+							String highlight;
+							if(tags.get("msg-id") != null && tags.get("msg-id").equals("highlighted-message")) highlight = "§c[!]§f ";
+							else highlight = "";
+							Utils.broadcastMessageToAllPlayerWhoCanReadThis(channel, "[§5Twitch§f] " + highlight + "<" + displayName + ">: " + message);
 						}
 					}
 					if(params[0].equals("QUIT")) {
