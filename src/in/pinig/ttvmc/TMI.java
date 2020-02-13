@@ -40,7 +40,15 @@ public class TMI extends Thread {
 						String[] args = str.split(":", 3);
 						String username = args[1].split("!")[0];
 						String message = args[2];
-						Utils.broadcastMessageToAllPlayerWhoCanReadThis(channel, "[§5Twitch§f] <" + username + ">: " + message);
+						if(message.contains("\u0001")) {
+							message = message.replaceAll("\u0001", "");
+							String[] subParams = message.split(" ", 2);
+							if(subParams[0].equals("ACTION")) {
+								Utils.broadcastMessageToAllPlayerWhoCanReadThis(channel, "[§5Twitch§f] §o* " + username + " " + subParams[1]);
+							}
+						} else {
+							Utils.broadcastMessageToAllPlayerWhoCanReadThis(channel, "[§5Twitch§f] <" + username + ">: " + message);
+						}
 					}
 					if(params[0].equals("QUIT")) {
 						break;
@@ -51,8 +59,6 @@ public class TMI extends Thread {
 				e.printStackTrace();
 			}
 			catch(IOException e) {
-				Utils.broadcastMessageToAllPlayerWhoCanReadThis("none", "[§5Twitch§f] Ошибка I/O: " + e.getMessage());
-				Utils.broadcastMessageToAllPlayerWhoCanReadThis("none", "Stack Trace смотрите в журналах сервера");
 				e.printStackTrace();
 			}
 			finally {
