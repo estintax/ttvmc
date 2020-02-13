@@ -45,4 +45,18 @@ public class Utils {
 
 		return result;
 	}
+
+	public static String badgeToColor(String badges) {
+		if(badges == null) return null;
+
+		if(badges.contains("staff")) return "§8";
+		else if(badges.contains("admin")) return "§6";
+		else if(badges.contains("broadcaster")) return "§c";
+		else if(badges.contains("moderator")) return "§2";
+		else if(badges.contains("vip")) return "§d";
+		else if(badges.contains("subscriber")) return "§e";
+		else if(badges.contains("prime")) return "§b";
+
+		return null;
+	}
 }

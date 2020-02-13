@@ -47,6 +47,10 @@ public class TMI extends Thread {
 
 						HashMap<String, String> tags = Utils.parseTags(params[0].replace("@", ""));
 						String displayName = Main.config.getBoolean("options.useDisplayName")?tags.get("display-name"):username;
+						if(Main.config.getBoolean("options.typesColor")) {
+							String color = Utils.badgeToColor(tags.get("badges"));
+							if(color != null && !color.equals("")) displayName = color + displayName + "§f";
+						}
 						if(message.contains("\u0001")) {
 							message = message.replaceAll("\u0001", "");
 							String[] subParams = message.split(" ", 2);
