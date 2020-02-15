@@ -28,26 +28,28 @@ public class TMI extends Thread {
 					Main.joinedChannels.add(channel);
 				}
 				
-				for (;;) {
-					if(sock.isClosed()) break;
+				while (!sock.isClosed()) {
 					String str = in.readLine();
+					if(str == null) continue;
 					String[] preParseParams = str.split(" ");
 					if(preParseParams[0].equals("PING")) {
 						out.println("PONG " + preParseParams[1]);
 						continue;
 					}
 
-					if(str == null) continue;
+					String rawTags = str.split(" :")[0];
+					str = str.replace(rawTags, "");
+
 					String[] args = str.split(":", 3);
 					args[0] = args[0].replaceAll(" ", "");
 					str = String.join(":", args);
 					String[] params = str.split(" ");
-					if(params[1].equals("PRIVMSG")) {
+					if(params.length > 2 && params[1].equals("PRIVMSG")) {
 						String channel = params[2].replace("#", "");
 						String username = args[1].split("!")[0];
 						String message = args[2];
 
-						HashMap<String, String> tags = Utils.parseTags(params[0].replace("@", ""));
+						HashMap<String, String> tags = Utils.parseTags(rawTags.replace("@", ""));
 						String displayName = Main.config.getBoolean("options.useDisplayName")?tags.get("display-name"):username;
 						if(Main.config.getBoolean("options.typesColor")) {
 							String color = Utils.badgeToColor(tags.get("badges"));
