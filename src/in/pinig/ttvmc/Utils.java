@@ -6,16 +6,21 @@ import java.util.HashMap;
 
 import com.sun.istack.internal.NotNull;
 import org.bukkit.Bukkit;
+import org.bukkit.Sound;
+import org.bukkit.SoundCategory;
 import org.bukkit.entity.Player;
 
 public class Utils {
-	public static void broadcastMessageToAllPlayerWhoCanReadThis(String chan, String message) {
+	public static void broadcastMessageToAllPlayerWhoCanReadThis(String chan, String message, Boolean highlight) {
 		Collection<? extends Player> players = Bukkit.getOnlinePlayers();
 		for(Player x : players) {
 			String channel = Main.channels.get(x.getName());
 			if(channel == null) continue;
 			if(channel.equals(chan) || chan.equals("none")) {
 				if(!Main.state.get(x.getName())) continue;
+				if(highlight && Main.config.getBoolean("options.highlightSound", false)) {
+					x.playSound(x.getLocation(), Sound.ENTITY_CAT_HURT, 1f, 1f);
+				}
 				x.sendMessage(message);
 			}
 		}

@@ -59,13 +59,13 @@ public class TMI extends Thread {
 							message = message.replaceAll("\u0001", "");
 							String[] subParams = message.split(" ", 2);
 							if(subParams[0].equals("ACTION")) {
-								Utils.broadcastMessageToAllPlayerWhoCanReadThis(channel, "[§5Twitch§f] §o* " + displayName + " " + subParams[1]);
+								Utils.broadcastMessageToAllPlayerWhoCanReadThis(channel, "[§5Twitch§f] §o* " + displayName + " " + subParams[1], false);
 							}
 						} else {
 							String highlight;
 							if(tags.get("msg-id") != null && tags.get("msg-id").equals("highlighted-message")) highlight = "§c[!]§f ";
 							else highlight = "";
-							Utils.broadcastMessageToAllPlayerWhoCanReadThis(channel, "[§5Twitch§f] " + highlight + "<" + displayName + ">: " + message);
+							Utils.broadcastMessageToAllPlayerWhoCanReadThis(channel, "[§5Twitch§f] " + highlight + "<" + displayName + ">: " + message, highlight.equals("")?false:true);
 						}
 					}
 					if(params[0].equals("QUIT")) {
@@ -89,8 +89,8 @@ public class TMI extends Thread {
 			e.printStackTrace();
 		}
 		catch (IOException e) {
-			Utils.broadcastMessageToAllPlayerWhoCanReadThis("none", "[§5Twitch§f] Вы отключены от TMI. Причина:");
-			Utils.broadcastMessageToAllPlayerWhoCanReadThis("none", e.getMessage());
+			Utils.broadcastMessageToAllPlayerWhoCanReadThis("none", "[§5Twitch§f] Вы отключены от TMI. Причина:", false);
+			Utils.broadcastMessageToAllPlayerWhoCanReadThis("none", e.getMessage(), false);
 		}
 	}
 }

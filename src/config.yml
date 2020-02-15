@@ -1,6 +1,7 @@
 default: true
 options:
    typesColor: false
+   highlightSound: true
    useDisplayName: true
 channels:
    - Estintax:estintax
