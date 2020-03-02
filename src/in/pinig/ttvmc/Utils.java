@@ -60,7 +60,7 @@ public class Utils {
 		else if(badges.contains("moderator")) return "§2";
 		else if(badges.contains("vip")) return "§d";
 		else if(badges.contains("subscriber")) return "§e";
-		else if(badges.contains("prime")) return "§b";
+		else if(badges.contains("premium")) return "§b";
 
 		return null;
 	}
