@@ -47,7 +47,8 @@ public class TMI extends Thread {
 					if(params.length > 2 && params[1].equals("PRIVMSG")) {
 						String channel = params[2].replace("#", "");
 						String username = args[1].split("!")[0];
-						String message = args[2];
+						String message;
+						message = new String(args[2].getBytes(), "UTF8");
 
 						HashMap<String, String> tags = Utils.parseTags(rawTags.replace("@", ""));
 						String displayName = Main.config.getBoolean("options.useDisplayName")?tags.get("display-name"):username;
